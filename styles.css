@@ -9,3 +9,19 @@ h1 {
     text-align: center;
     padding: 20px;
 }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: #0056b3;
+}
+
+p {
+    font-size: 1.2em;
+}
