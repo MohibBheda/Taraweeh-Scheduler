@@ -9,29 +9,28 @@
 <body>
     <div class="container">
         <h1>Taraweeh Scheduler</h1>
-        <p>This tool helps schedule Ramadan prayers for imams.</p>
-        
-        <label for="rakah-per-night">Rak'ah per Night:</label>
-        <select id="rakah-per-night">
-            <option value="20">20 Rak'ah</option>
-            <option value="8">8 Rak'ah</option>
-        </select>
+        <p>This is a simple app to schedule Ramadan prayers.</p>
+        <form id="schedule-form">
+            <label for="units-per-night">Rak'ahs per Night:</label>
+            <select id="units-per-night">
+                <option value="20">20 Rak'ahs</option>
+                <option value="8">8 Rak'ahs</option>
+            </select>
 
-        <label for="number-of-imams">Number of Imams:</label>
-        <select id="number-of-imams">
-            <option value="1">1 Imam</option>
-            <option value="2">2 Imams</option>
-            <option value="3">3 Imams</option>
-            <option value="4">4 Imams</option>
-        </select>
+            <label for="number-of-imams">Number of Imams:</label>
+            <select id="number-of-imams">
+                <option value="1">1 Imam</option>
+                <option value="2">2 Imams</option>
+                <option value="3">3 Imams</option>
+                <option value="4">4 Imams</option>
+            </select>
 
-        <div id="imam-inputs"></div>
+            <div id="imam-inputs"></div>
 
-        <button id="generate-schedule">Bismillah!</button>
+            <button type="button" id="generate-button">Bismillah!</button>
+        </form>
+        <div id="schedule-output"></div>
     </div>
-
     <script src="script.js"></script>
-    <div id="schedule-output"></div>
-
 </body>
 </html>
