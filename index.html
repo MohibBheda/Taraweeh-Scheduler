@@ -7,41 +7,31 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to Taraweeh Scheduler</h1>
+    <div class="container">
+        <h1>Taraweeh Scheduler</h1>
+        <p>This tool helps schedule Ramadan prayers for imams.</p>
+        
+        <label for="rakah-per-night">Rak'ah per Night:</label>
+        <select id="rakah-per-night">
+            <option value="20">20 Rak'ah</option>
+            <option value="8">8 Rak'ah</option>
+        </select>
+
+        <label for="number-of-imams">Number of Imams:</label>
+        <select id="number-of-imams">
+            <option value="1">1 Imam</option>
+            <option value="2">2 Imams</option>
+            <option value="3">3 Imams</option>
+            <option value="4">4 Imams</option>
+        </select>
+
+        <div id="imam-inputs"></div>
+
+        <button id="generate-schedule">Bismillah!</button>
+    </div>
+
     <script src="script.js"></script>
+    <div id="schedule-output"></div>
+
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <p>This is a simple app to schedule Ramadan prayers.</p>
-    <script src="script.js"></script>
-</body>
-</html><link rel="stylesheet" href="styles.css">
-<script src="script.js"></script>
-
-<h2>Generate Taraweeh Schedule</h2>
-<form id="schedule-form">
-    <label for="imams">Number of Imams:</label>
-    <input type="number" id="imams" name="imams" min="1" required><br><br>
-
-    <label for="completion-date">Desired Date of Completion:</label>
-    <input type="date" id="completion-date" name="completion-date" required><br><br>
-
-    <label for="units-per-night">Units of Prayer per Night:</label>
-    <select id="units-per-night" name="units-per-night" required>
-        <option value="20">20 Units (10 Prayers)</option>
-        <option value="8">8 Units (4 Prayers)</option>
-    </select><br><br>
-
-    <label for="units-per-imam">Units per Imam:</label>
-    <input type="text" id="units-per-imam" name="units-per-imam" placeholder="e.g. 8, 6, 6" required pattern="([02468]{1,2},\s*)*[02468]{1,2}"><br><br>
-
-    <input type="submit" value="Generate Schedule">
-</form>
-<div id="schedule-output"></div>
