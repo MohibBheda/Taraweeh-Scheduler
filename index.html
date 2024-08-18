@@ -7,30 +7,36 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Taraweeh Scheduler</h1>
-        <p>This is a simple app to schedule Ramadan prayers.</p>
-        <form id="schedule-form">
-            <label for="units-per-night">Rak'ahs per Night:</label>
-            <select id="units-per-night">
-                <option value="20">20 Rak'ahs</option>
-                <option value="8">8 Rak'ahs</option>
-            </select>
+    <h1>Taraweeh Scheduler</h1>
+    <p>This tool helps schedule Ramadan prayers efficiently.</p>
 
-            <label for="number-of-imams">Number of Imams:</label>
-            <select id="number-of-imams">
-                <option value="1">1 Imam</option>
-                <option value="2">2 Imams</option>
-                <option value="3">3 Imams</option>
-                <option value="4">4 Imams</option>
-            </select>
+    <label for="units-per-night">Units of Prayer per Night:</label>
+    <select id="units-per-night">
+        <option value="20">20 Rak'ah</option>
+        <option value="8">8 Rak'ah</option>
+    </select>
+    
+    <label for="number-of-imams">Number of Imams:</label>
+    <select id="number-of-imams" onchange="updateImamInputs()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+    
+    <div id="imam-inputs"></div>
+    
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="start-date">
 
-            <div id="imam-inputs"></div>
+    <label for="end-date">End Date:</label>
+    <input type="date" id="end-date">
 
-            <button type="button" id="generate-button">Bismillah!</button>
-        </form>
-        <div id="schedule-output"></div>
-    </div>
+    <input type="file" id="fileInput" />
+    <button onclick="generateSchedule()">Bismillah!</button>
+
+    <div id="schedule-output"></div>
+    
     <script src="script.js"></script>
 </body>
 </html>
