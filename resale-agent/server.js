@@ -14,6 +14,8 @@ initDatabase();
 app.use('/', require('./src/routes/evaluate'));
 app.use('/', require('./src/routes/inventory'));
 app.use('/', require('./src/routes/listing'));
+app.use('/', require('./src/routes/opportunities'));
+app.use('/', require('./src/routes/smart'));
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });

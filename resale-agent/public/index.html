@@ -17,6 +17,7 @@
   --yellow:   #d29922;
   --blue:     #58a6ff;
   --purple:   #bc8cff;
+  --orange:   #e3782c;
   --r:        8px;
   --font:     -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --mono:     'SF Mono', 'Cascadia Code', 'Fira Mono', monospace;
@@ -123,8 +124,8 @@ input, select, textarea {
   transition: border-color 0.15s;
   width: 100%;
 }
-input:focus, select:focus { border-color: var(--blue); }
-input::placeholder { color: var(--muted); }
+input:focus, select:focus, textarea:focus { border-color: var(--blue); }
+input::placeholder, textarea::placeholder { color: var(--muted); }
 
 .prefix-wrap { position: relative; }
 .prefix-wrap .prefix {
@@ -171,12 +172,59 @@ input::placeholder { color: var(--muted); }
   letter-spacing: 0.4px;
 }
 .badge-BUY         { background: rgba(63,185,80,0.12);  color: var(--green);  border: 1px solid rgba(63,185,80,0.3); }
+.badge-PASS        { background: rgba(248,81,73,0.12);  color: var(--red);    border: 1px solid rgba(248,81,73,0.3); }
 .badge-REJECT      { background: rgba(248,81,73,0.12);  color: var(--red);    border: 1px solid rgba(248,81,73,0.3); }
 .badge-CONSIDER    { background: rgba(210,153,34,0.12); color: var(--yellow); border: 1px solid rgba(210,153,34,0.3); }
 .badge-INVESTIGATE, .badge-INSUFFICIENT_DATA {
                      background: rgba(139,148,158,0.12); color: var(--muted);  border: 1px solid var(--border); }
 
-/* ── Metrics row ── */
+/* ── Deal score ring ── */
+.deal-score-block {
+  text-align: center;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+}
+.deal-score-num {
+  font-family: var(--mono);
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+}
+.deal-score-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.score-green  { color: var(--green); }
+.score-yellow { color: var(--yellow); }
+.score-red    { color: var(--red); }
+
+/* ── Meter bars ── */
+.meters { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+.meter-row { display: flex; flex-direction: column; gap: 3px; }
+.meter-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+}
+.meter-label .meter-hint { font-size: 10px; color: var(--muted); font-style: italic; }
+.meter-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.meter-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* ── Old metric boxes (kept for compatibility) ── */
 .metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -207,20 +255,6 @@ input::placeholder { color: var(--muted); }
 
 .pos { color: var(--green); }
 .neg { color: var(--red); }
-
-/* ── Risk bar ── */
-.risk-track {
-  height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin-top: 8px;
-  overflow: hidden;
-}
-.risk-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.5s ease;
-}
 
 /* ── Breakdown table ── */
 .breakdown { margin-top: 20px; }
@@ -353,6 +387,58 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 .s-sold      { background: rgba(63,185,80,0.1);   color: var(--green); }
 .s-rejected  { background: rgba(248,81,73,0.1);   color: var(--red); }
 
+/* ── Opportunity cards ── */
+.opp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.opp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+}
+.opp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.opp-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.opp-profit {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+.opp-mini-meters { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+.opp-mini-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.opp-mini-label { width: 72px; flex-shrink: 0; }
+.opp-mini-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.opp-mini-fill { height: 100%; border-radius: 2px; }
+.opp-mini-val { width: 28px; text-align: right; color: var(--text); font-family: var(--mono); font-size: 10px; }
+
+/* ── Deal score badge in table ── */
+.ds-badge {
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+}
+.ds-buy      { background: rgba(63,185,80,0.12);  color: var(--green); }
+.ds-consider { background: rgba(210,153,34,0.12); color: var(--yellow); }
+.ds-pass     { background: rgba(248,81,73,0.12);  color: var(--red); }
+
 /* ── Listing output ── */
 .lsection { margin-bottom: 20px; }
 .lhead {
@@ -426,12 +512,24 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 /* ── Divider ── */
 .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 
+/* ── Opp breakdown row ── */
+.opp-breakdown {
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.opp-breakdown span { display: flex; align-items: center; gap: 4px; }
+
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .grid    { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: 1fr 1fr; }
   .stats   { grid-template-columns: repeat(3, 1fr); }
   .price-trio { grid-template-columns: 1fr; }
+  .opp-grid { grid-template-columns: 1fr; }
   header   { padding: 12px 16px; }
   main     { padding: 24px 16px 60px; }
 }
@@ -442,16 +540,40 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 <header>
   <div class="logo">resale<em>agent</em></div>
   <nav>
-    <button class="active" data-tab="evaluate" onclick="switchTab(this)">Evaluate</button>
-    <button data-tab="inventory" onclick="switchTab(this)">Inventory</button>
-    <button data-tab="listing" onclick="switchTab(this)">Listing</button>
+    <button class="active" data-tab="smart"         onclick="switchTab(this)">Smart</button>
+    <button data-tab="evaluate"      onclick="switchTab(this)">Evaluate</button>
+    <button data-tab="opportunities" onclick="switchTab(this)">Opportunities</button>
+    <button data-tab="inventory"     onclick="switchTab(this)">Inventory</button>
+    <button data-tab="listing"       onclick="switchTab(this)">Listing</button>
   </nav>
 </header>
 
 <main>
 
+  <!-- ══════════════════════ SMART ══════════════════════ -->
+  <div id="tab-smart" class="tab active">
+    <div class="card">
+      <div class="grid">
+        <div class="field span2">
+          <label>Listing URL or Paste Text</label>
+          <textarea id="sm-text" rows="5" placeholder="Paste a Craigslist / Facebook Marketplace / OfferUp listing here — or enter a URL on the first line."></textarea>
+          <div class="helper">Paste the full listing text, or just a URL. Requires ANTHROPIC_API_KEY for AI extraction.</div>
+        </div>
+        <div class="field">
+          <label>Your Buy Price (override)</label>
+          <div class="prefix-wrap">
+            <span class="prefix">$</span>
+            <input id="sm-price" type="number" placeholder="Leave blank to use asking price" min="0" step="0.01" />
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="sm-btn" onclick="doSmart()">Analyze Listing</button>
+    </div>
+    <div id="sm-result" style="margin-top:20px; display:none;"></div>
+  </div>
+
   <!-- ══════════════════════ EVALUATE ══════════════════════ -->
-  <div id="tab-evaluate" class="tab active">
+  <div id="tab-evaluate" class="tab">
     <div class="card">
       <div class="grid">
 
@@ -512,7 +634,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         <div class="field span2">
           <label>eBay Sold Prices</label>
           <input id="ev-comps" type="text" placeholder="85, 90, 78, 92, 88" />
-          <div class="helper">Search on eBay → tick "Sold Listings" → paste the prices here, comma-separated. More = better accuracy.</div>
+          <div class="helper">Search on eBay, tick "Sold Listings", paste the prices here comma-separated. More = better accuracy.</div>
         </div>
 
         <div class="field span2">
@@ -525,6 +647,19 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </div>
 
     <div id="ev-result" style="margin-top:20px; display:none;"></div>
+  </div>
+
+  <!-- ══════════════════════ OPPORTUNITIES ══════════════════════ -->
+  <div id="tab-opportunities" class="tab">
+    <div id="opp-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <div>
+        <h2 style="font-size:18px; font-weight:700;">Top Opportunities</h2>
+        <p style="font-size:13px; color:var(--muted); margin-top:2px;">Items with deal score ≥ 40 sorted by score</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="loadOpportunities()">Refresh</button>
+    </div>
+    <div id="opp-summary" style="display:none; margin-bottom:16px;"></div>
+    <div id="opp-content"><div class="empty">Loading opportunities…</div></div>
   </div>
 
   <!-- ══════════════════════ INVENTORY ══════════════════════ -->
@@ -621,22 +756,24 @@ let _invFilter   = 'all';
 function switchTab(btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+  document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
   btn.classList.add('active');
-  if (btn.dataset.tab === 'inventory') loadInventory();
+  if (btn.dataset.tab === 'inventory')     loadInventory();
+  if (btn.dataset.tab === 'opportunities') loadOpportunities();
 }
 
 // ─── Toast ─────────────────────────────────────────────────
-function toast(msg, ms = 2400) {
+function toast(msg, ms) {
+  ms = ms || 2400;
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), ms);
+  setTimeout(function() { el.classList.remove('show'); }, ms);
 }
 
 // ─── Clipboard ─────────────────────────────────────────────
 function cp(text, lbl) {
-  navigator.clipboard.writeText(text).then(() => toast(`${lbl} copied ✓`));
+  navigator.clipboard.writeText(text).then(function() { toast(lbl + ' copied'); });
 }
 
 // ─── Loading state ─────────────────────────────────────────
@@ -644,6 +781,146 @@ function setBusy(btnId, busy) {
   const b = document.getElementById(btnId);
   if (busy) { b._label = b.textContent; b.disabled = true; b.innerHTML = '<span class="spin"></span>'; }
   else       { b.disabled = false; b.textContent = b._label; }
+}
+
+// ─── Score color helper ─────────────────────────────────────
+function scoreColor(n) {
+  if (n >= 70) return 'var(--green)';
+  if (n >= 40) return 'var(--yellow)';
+  return 'var(--red)';
+}
+function scoreClass(n) {
+  if (n >= 70) return 'score-green';
+  if (n >= 40) return 'score-yellow';
+  return 'score-red';
+}
+
+// ─── Shared result card renderer ───────────────────────────
+function renderResultCard(d, targetId) {
+  const el = document.getElementById(targetId);
+  el.style.display = 'block';
+
+  if (d.decision.action === 'INSUFFICIENT_DATA') {
+    el.innerHTML = '<div class="card"><span class="badge badge-INSUFFICIENT_DATA">No Data</span><p style="margin-top:14px; color:var(--muted);">' + esc(d.decision.reason) + '</p></div>';
+    return;
+  }
+
+  const v      = d.valuation || {};
+  const scores = d.scores    || {};
+  const md     = d.market_data || {};
+  const dq     = d.data_quality || {};
+  const action = d.decision.action;
+
+  const dealScore       = scores.dealScore      || 0;
+  const liquidityScore  = scores.liquidityScore || 0;
+  const riskScore       = scores.riskScore      || 0;
+  const competitionScore = scores.competitionScore || 0;
+
+  const profit = v.net_profit  != null ? v.net_profit  : (d.net_profit  || 0);
+  const roi    = v.roi         != null ? v.roi         : (d.roi_percentage || 0);
+  const fees   = v.ebay_fees   != null ? v.ebay_fees   : (d.ebay_fees || 0);
+  const ship   = v.shipping    != null ? v.shipping    : (d.shipping || 0);
+  const buf    = v.safety_buffer != null ? v.safety_buffer : 0;
+  const resale = v.resale_price  != null ? v.resale_price : (md.avg_sold_price || 0);
+  const pp     = v.purchase_price != null ? v.purchase_price : (d.purchase_price || 0);
+
+  const pClass = profit >= 0 ? 'pos' : 'neg';
+  const rClass = roi    >= 0 ? 'pos' : 'neg';
+
+  const badgeLabel = { BUY: 'BUY', CONSIDER: 'CONSIDER', PASS: 'PASS' }[action] || action;
+
+  const dataWarn = (dq.data_label)
+    ? '<div class="warn">' + esc(dq.data_label) + ' — Verify real eBay sold prices before buying.</div>'
+    : '';
+
+  const marketRange = (md.sold_range_low != null)
+    ? '<p style="font-size:12px; color:var(--muted); margin-top:14px;">Sold <span style="color:var(--text); font-family:var(--mono);">$' + md.sold_range_low + ' &ndash; $' + md.sold_range_high + '</span> &nbsp;&middot;&nbsp; Avg <span style="color:var(--text); font-family:var(--mono);">$' + (md.avg_sold_price || 0).toFixed(2) + '</span>' + (md.sample_size ? ' &nbsp;&middot;&nbsp; ' + md.sample_size + ' comps' : '') + '</p>'
+    : '';
+
+  el.innerHTML = '<div class="card">'
+    + dataWarn
+    + '<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">'
+    +   '<span class="badge badge-' + action + '">' + badgeLabel + '</span>'
+    +   '<div style="display:flex; align-items:center; gap:8px;">'
+    +     '<span class="chip chip-' + (dq.confidence || 'none') + '">' + (dq.confidence || 'no data') + ' confidence</span>'
+    +     (md.sample_size > 0 ? '<span style="font-size:11px;color:var(--muted)">' + md.sample_size + ' sold comps</span>' : '')
+    +   '</div>'
+    + '</div>'
+    + '<p style="font-size:13px; color:var(--muted); margin-top:10px;">' + esc(d.decision.reason) + '</p>'
+
+    + '<div style="display:grid; grid-template-columns:auto 1fr; gap:16px; margin-top:20px; align-items:start;">'
+    +   '<div class="deal-score-block">'
+    +     '<div class="deal-score-num ' + scoreClass(dealScore) + '">' + dealScore + '</div>'
+    +     '<div class="deal-score-sub">/100 Deal Score</div>'
+    +   '</div>'
+    +   '<div>'
+    +     '<div class="meters">'
+    +       '<div class="meter-row">'
+    +         '<div class="meter-label"><span>Liquidity</span><span>' + liquidityScore + '/10</span></div>'
+    +         '<div class="meter-track"><div class="meter-fill" style="width:' + (liquidityScore * 10) + '%; background:var(--green);"></div></div>'
+    +       '</div>'
+    +       '<div class="meter-row">'
+    +         '<div class="meter-label"><span>Risk <span class="meter-hint">(lower is better)</span></span><span>' + riskScore + '/10</span></div>'
+    +         '<div class="meter-track"><div class="meter-fill" style="width:' + (riskScore * 10) + '%; background:var(--red);"></div></div>'
+    +       '</div>'
+    +       '<div class="meter-row">'
+    +         '<div class="meter-label"><span>Competition <span class="meter-hint">(lower is better)</span></span><span>' + competitionScore + '/10</span></div>'
+    +         '<div class="meter-track"><div class="meter-fill" style="width:' + (competitionScore * 10) + '%; background:var(--orange);"></div></div>'
+    +       '</div>'
+    +     '</div>'
+    +     '<div style="display:flex; gap:16px; margin-top:8px;">'
+    +       '<div><div class="metric-val ' + pClass + '" style="font-size:20px;font-family:var(--mono);">$' + profit.toFixed(2) + '</div><div class="metric-lbl">Net Profit</div></div>'
+    +       '<div><div class="metric-val ' + rClass + '" style="font-size:20px;font-family:var(--mono);">' + roi + '%</div><div class="metric-lbl">ROI</div></div>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>'
+
+    + '<div class="breakdown">'
+    +   '<div class="breakdown-title">Cost Breakdown</div>'
+    +   '<div class="brow"><span class="bl">Estimated resale</span><span class="bv">$' + resale.toFixed(2) + '</span></div>'
+    +   '<div class="brow"><span class="bl">Your buy price</span><span class="bv neg">-$' + pp.toFixed(2) + '</span></div>'
+    +   '<div class="brow"><span class="bl">eBay fees</span><span class="bv neg">-$' + fees.toFixed(2) + '</span></div>'
+    +   '<div class="brow"><span class="bl">Shipping estimate</span><span class="bv neg">-$' + ship.toFixed(2) + '</span></div>'
+    +   '<div class="brow"><span class="bl">Safety buffer (12%)</span><span class="bv neg">-$' + buf.toFixed(2) + '</span></div>'
+    +   '<div class="brow"><span>Net profit</span><span class="bv ' + pClass + '">$' + profit.toFixed(2) + '</span></div>'
+    + '</div>'
+
+    + marketRange
+
+    + '<hr class="divider">'
+    + '<div style="display:flex; gap:10px; flex-wrap:wrap;">'
+    +   '<button class="btn btn-ghost btn-sm" onclick="prefillListing()">Generate Listing &rarr;</button>'
+    +   (d.id ? '<button class="btn btn-ghost btn-sm" onclick="setStatus(' + d.id + ',\'bought\')">Mark as Bought</button>' : '')
+    + '</div>'
+    + '</div>';
+
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ─── ─── ─── SMART ─── ─── ──────────────────────────────────
+
+async function doSmart() {
+  const raw   = document.getElementById('sm-text').value.trim();
+  const price = parseFloat(document.getElementById('sm-price').value);
+  if (!raw) { toast('Paste listing text or a URL first'); return; }
+
+  const isUrl = /^https?:\/\//i.test(raw.split('\n')[0].trim());
+  const body  = isUrl
+    ? { url: raw.split('\n')[0].trim(), purchase_price: price > 0 ? price : undefined }
+    : { text: raw,                      purchase_price: price > 0 ? price : undefined };
+
+  setBusy('sm-btn', true);
+  try {
+    const res  = await fetch('/smart-evaluate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    _lastResult = data;
+    renderResultCard(data, 'sm-result');
+  } catch(e) {
+    toast('Error: ' + e.message);
+  } finally {
+    setBusy('sm-btn', false);
+  }
 }
 
 // ─── ─── ─── EVALUATE ─── ─── ───────────────────────────────
@@ -655,25 +932,25 @@ async function doEvaluate() {
   if (!(price > 0)) { toast('Enter a valid buy price'); return; }
 
   const compsRaw = document.getElementById('ev-comps').value;
-  const comps    = compsRaw.split(',').map(s => parseFloat(s.trim())).filter(n => n > 0 && isFinite(n));
+  const comps    = compsRaw.split(',').map(function(s) { return parseFloat(s.trim()); }).filter(function(n) { return n > 0 && isFinite(n); });
 
   const body = {
     title,
     purchase_price: price,
-    condition:   document.getElementById('ev-cond').value,
+    condition:    document.getElementById('ev-cond').value,
     weight_class: document.getElementById('ev-weight').value,
-    category: document.getElementById('ev-cat').value   || undefined,
-    notes:    document.getElementById('ev-notes').value.trim() || undefined,
+    category:     document.getElementById('ev-cat').value   || undefined,
+    notes:        document.getElementById('ev-notes').value.trim() || undefined,
   };
   if (comps.length) body.comparable_sales = comps;
 
   setBusy('ev-btn', true);
   try {
-    const res  = await fetch('/evaluate', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const res  = await fetch('/evaluate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
     _lastResult = data;
-    renderResult(data);
+    renderResultCard(data, 'ev-result');
   } catch(e) {
     toast('Error: ' + e.message);
   } finally {
@@ -681,90 +958,67 @@ async function doEvaluate() {
   }
 }
 
-function renderResult(d) {
-  const el = document.getElementById('ev-result');
-  el.style.display = 'block';
+// ─── ─── ─── OPPORTUNITIES ─── ─── ──────────────────────────
 
-  if (d.decision.action === 'INSUFFICIENT_DATA') {
-    el.innerHTML = `
-      <div class="card">
-        <span class="badge badge-INSUFFICIENT_DATA">⚠ No Data</span>
-        <p style="margin-top:14px; color:var(--muted);">${d.decision.reason}</p>
-      </div>`;
-    return;
+async function loadOpportunities() {
+  const el = document.getElementById('opp-content');
+  el.innerHTML = '<div class="empty">Loading…</div>';
+  document.getElementById('opp-summary').style.display = 'none';
+  try {
+    const res  = await fetch('/opportunities?limit=20');
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed');
+
+    const sumEl = document.getElementById('opp-summary');
+    sumEl.style.display = 'flex';
+    sumEl.style.gap = '12px';
+    sumEl.innerHTML = ''
+      + '<span style="font-size:13px; color:var(--green); font-weight:600;">' + data.breakdown.buy + ' BUY</span>'
+      + '<span style="color:var(--border)">|</span>'
+      + '<span style="font-size:13px; color:var(--yellow); font-weight:600;">' + data.breakdown.consider + ' CONSIDER</span>'
+      + '<span style="color:var(--border)">|</span>'
+      + '<span style="font-size:13px; color:var(--muted);">' + data.count + ' total</span>';
+
+    if (!data.items.length) {
+      el.innerHTML = '<div class="empty">No opportunities yet. Evaluate some items first.</div>';
+      return;
+    }
+
+    el.innerHTML = '<div class="opp-grid">' + data.items.map(function(item) {
+      const ds     = item.deal_score || 0;
+      const liq    = item.liquidity_score || 0;
+      const risk   = item.risk_score || 0;
+      const comp   = item.competition_score || 0;
+      const profit = item.net_profit || 0;
+      const pClass = profit >= 0 ? 'pos' : 'neg';
+      const decision = ds >= 70 ? 'BUY' : ds >= 40 ? 'CONSIDER' : 'PASS';
+      return '<div class="opp-card">'
+        + '<div class="opp-header">'
+        +   '<div class="opp-title" title="' + esc(item.title) + '">' + esc(item.title) + '</div>'
+        +   '<span class="badge badge-' + decision + '" style="font-size:11px; padding:3px 10px;">' + decision + '</span>'
+        + '</div>'
+        + '<div style="display:flex; justify-content:space-between; align-items:center;">'
+        +   '<div><span class="deal-score-num ' + scoreClass(ds) + '" style="font-size:28px;">' + ds + '</span><span style="font-size:11px; color:var(--muted);">/100</span></div>'
+        +   '<div style="text-align:right;">'
+        +     '<div class="opp-profit ' + pClass + '">' + (profit >= 0 ? '+' : '') + '$' + profit.toFixed(2) + '</div>'
+        +     '<div style="font-size:11px; color:var(--muted);">net profit</div>'
+        +   '</div>'
+        + '</div>'
+        + '<div class="opp-mini-meters">'
+        +   '<div class="opp-mini-row"><span class="opp-mini-label">Liquidity</span><div class="opp-mini-track"><div class="opp-mini-fill" style="width:' + (liq * 10) + '%; background:var(--green);"></div></div><span class="opp-mini-val">' + liq + '</span></div>'
+        +   '<div class="opp-mini-row"><span class="opp-mini-label">Risk</span><div class="opp-mini-track"><div class="opp-mini-fill" style="width:' + (risk * 10) + '%; background:var(--red);"></div></div><span class="opp-mini-val">' + risk + '</span></div>'
+        +   '<div class="opp-mini-row"><span class="opp-mini-label">Competition</span><div class="opp-mini-track"><div class="opp-mini-fill" style="width:' + (comp * 10) + '%; background:var(--orange);"></div></div><span class="opp-mini-val">' + comp + '</span></div>'
+        + '</div>'
+        + '<div class="opp-breakdown">'
+        +   '<span style="color:var(--muted);">Buy: <span style="color:var(--text); font-family:var(--mono);">$' + (item.purchase_price || 0).toFixed(2) + '</span></span>'
+        +   '<span style="color:var(--muted);">Est: <span style="color:var(--text); font-family:var(--mono);">$' + (item.estimated_resale_price || 0).toFixed(2) + '</span></span>'
+        +   (item.roi_percentage != null ? '<span style="color:var(--muted);">ROI: <span style="color:var(--text); font-family:var(--mono);">' + item.roi_percentage + '%</span></span>' : '')
+        + '</div>'
+        + '</div>';
+    }).join('') + '</div>';
+  } catch(e) {
+    el.innerHTML = '<div class="empty">Could not load opportunities: ' + esc(e.message) + '</div>';
   }
-
-  const profit = d.net_profit;
-  const roi    = d.roi_percentage;
-  const risk   = d.risk_score;
-  const action = d.decision.action;
-
-  const pClass = profit >= 0 ? 'pos' : 'neg';
-  const rClass = roi    >= 0 ? 'pos' : 'neg';
-
-  const riskColor = risk <= 3 ? 'var(--green)' : risk <= 6 ? 'var(--yellow)' : 'var(--red)';
-  const cb  = d.cost_breakdown;
-  const dq  = d.data_quality;
-  const md  = d.market_data;
-
-  const icon = { BUY:'✓ BUY', REJECT:'✕ REJECT', CONSIDER:'~ CONSIDER', INVESTIGATE:'? INVESTIGATE' }[action] || action;
-
-  const dataWarn = dq.data_label
-    ? `<div class="warn">⚠ ${dq.data_label} — Verify real eBay sold prices before buying.</div>`
-    : '';
-
-  el.innerHTML = `
-    <div class="card">
-      ${dataWarn}
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-        <span class="badge badge-${action}">${icon}</span>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="chip chip-${dq.confidence || 'none'}">${dq.confidence || 'no data'} confidence</span>
-          ${md.sample_size > 0 ? `<span style="font-size:11px;color:var(--muted)">${md.sample_size} sold comps</span>` : ''}
-        </div>
-      </div>
-      <p style="font-size:13px; color:var(--muted); margin-top:10px;">${d.decision.reason}</p>
-
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-val ${pClass}">$${profit.toFixed(2)}</div>
-          <div class="metric-lbl">Net Profit</div>
-        </div>
-        <div class="metric">
-          <div class="metric-val ${rClass}">${roi}%</div>
-          <div class="metric-lbl">ROI</div>
-        </div>
-        <div class="metric">
-          <div class="metric-val" style="color:${riskColor}">${risk}<span style="font-size:16px;">/10</span></div>
-          <div class="metric-lbl">Risk</div>
-          <div class="risk-track"><div class="risk-fill" style="width:${risk*10}%; background:${riskColor};"></div></div>
-        </div>
-      </div>
-
-      <div class="breakdown">
-        <div class="breakdown-title">Cost Breakdown</div>
-        <div class="brow"><span class="bl">Estimated resale</span><span class="bv">$${d.resale_price_estimate.toFixed(2)}</span></div>
-        <div class="brow"><span class="bl">Your buy price</span><span class="bv neg">−$${cb.purchase_price.toFixed(2)}</span></div>
-        <div class="brow"><span class="bl">eBay fees (13.25%)</span><span class="bv neg">−$${cb.ebay_fees.toFixed(2)}</span></div>
-        <div class="brow"><span class="bl">Shipping estimate</span><span class="bv neg">−$${cb.shipping_estimate.toFixed(2)}</span></div>
-        <div class="brow"><span class="bl">Safety buffer (12%)</span><span class="bv neg">−$${cb.safety_buffer.toFixed(2)}</span></div>
-        <div class="brow"><span>Net profit</span><span class="bv ${pClass}">$${profit.toFixed(2)}</span></div>
-      </div>
-
-      ${md.sold_range_low != null ? `
-        <p style="font-size:12px; color:var(--muted); margin-top:14px;">
-          Sold range: <span style="color:var(--text); font-family:var(--mono);">$${md.sold_range_low} – $${md.sold_range_high}</span>
-          &nbsp;·&nbsp; Avg: <span style="color:var(--text); font-family:var(--mono);">$${md.avg_sold_price.toFixed(2)}</span>
-        </p>` : ''}
-
-      <hr class="divider">
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn btn-ghost btn-sm" onclick="prefillListing()">Generate Listing →</button>
-        ${d.id ? `<button class="btn btn-ghost btn-sm" onclick="setStatus(${d.id},'bought')">Mark as Bought</button>` : ''}
-      </div>
-    </div>`;
-
-  el.scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 // ─── ─── ─── INVENTORY ─── ─── ──────────────────────────────
@@ -784,72 +1038,74 @@ async function loadInventory() {
 function renderStats(s) {
   const profit = s.total_realized_profit || 0;
   const pClass = profit >= 0 ? 'pos' : 'neg';
-  document.getElementById('inv-stats').innerHTML = `
-    <div class="stat"><div class="stat-n">${s.total||0}</div><div class="stat-l">Total</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--blue)">${s.candidates||0}</div><div class="stat-l">Candidates</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--purple)">${s.bought||0}</div><div class="stat-l">Bought</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--yellow)">${s.listed||0}</div><div class="stat-l">Listed</div></div>
-    <div class="stat"><div class="stat-n" style="color:var(--green)">${s.sold||0}</div><div class="stat-l">Sold</div></div>
-    <div class="stat"><div class="stat-n ${pClass}">$${profit.toFixed(0)}</div><div class="stat-l">Realized</div></div>`;
+  document.getElementById('inv-stats').innerHTML = ''
+    + '<div class="stat"><div class="stat-n">' + (s.total || 0) + '</div><div class="stat-l">Total</div></div>'
+    + '<div class="stat"><div class="stat-n" style="color:var(--blue)">' + (s.candidates || 0) + '</div><div class="stat-l">Candidates</div></div>'
+    + '<div class="stat"><div class="stat-n" style="color:var(--purple)">' + (s.bought || 0) + '</div><div class="stat-l">Bought</div></div>'
+    + '<div class="stat"><div class="stat-n" style="color:var(--yellow)">' + (s.listed || 0) + '</div><div class="stat-l">Listed</div></div>'
+    + '<div class="stat"><div class="stat-n" style="color:var(--green)">' + (s.sold || 0) + '</div><div class="stat-l">Sold</div></div>'
+    + '<div class="stat"><div class="stat-n ' + pClass + '">$' + profit.toFixed(0) + '</div><div class="stat-l">Realized</div></div>';
 }
 
 function filterInv(status, btn) {
   _invFilter = status;
-  document.querySelectorAll('.fpill').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.fpill').forEach(function(b) { b.classList.remove('on'); });
   btn.classList.add('on');
   renderTable(status);
 }
 
+function dsBadge(ds) {
+  if (ds == null) return '<span style="color:var(--muted);">—</span>';
+  const cls = ds >= 70 ? 'ds-buy' : ds >= 40 ? 'ds-consider' : 'ds-pass';
+  return '<span class="ds-badge ' + cls + '">' + ds + '</span>';
+}
+
 function renderTable(filter) {
-  const items = filter === 'all' ? _allItems : _allItems.filter(i => i.status === filter);
+  const items = filter === 'all' ? _allItems : _allItems.filter(function(i) { return i.status === filter; });
   const wrap  = document.getElementById('inv-table');
 
   if (!items.length) {
-    wrap.innerHTML = `<div class="empty">Nothing here yet.</div>`;
+    wrap.innerHTML = '<div class="empty">Nothing here yet.</div>';
     return;
   }
 
-  wrap.innerHTML = `
-    <div class="tbl-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Buy</th>
-          <th>Resale Est.</th>
-          <th>Net Profit</th>
-          <th>ROI</th>
-          <th>Risk</th>
-          <th>Status</th>
-          <th>Move to</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${items.map(item => {
-          const pc = (item.roi_percentage||0) >= 0 ? 'pos' : 'neg';
-          return `<tr>
-            <td style="max-width:220px; overflow:hidden; text-overflow:ellipsis;" title="${esc(item.title)}">${esc(item.title)}</td>
-            <td style="font-family:var(--mono)">$${item.purchase_price.toFixed(2)}</td>
-            <td style="font-family:var(--mono)">${item.estimated_resale_price != null ? '$'+item.estimated_resale_price.toFixed(2) : '—'}</td>
-            <td style="font-family:var(--mono)" class="${pc}">${item.net_profit != null ? (item.net_profit>=0?'+':'')+' $'+item.net_profit.toFixed(2) : '—'}</td>
-            <td style="font-family:var(--mono)" class="${pc}">${item.roi_percentage != null ? item.roi_percentage+'%' : '—'}</td>
-            <td style="font-family:var(--mono)">${item.risk_score != null ? item.risk_score+'/10' : '—'}</td>
-            <td><span class="status s-${item.status}">${item.status}</span></td>
-            <td>
-              <select onchange="changeStatus(${item.id}, this)" style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;padding:4px 8px;">
-                <option value="">—</option>
-                <option value="candidate">candidate</option>
-                <option value="bought">bought</option>
-                <option value="listed">listed</option>
-                <option value="sold">sold</option>
-                <option value="rejected">rejected</option>
-              </select>
-            </td>
-          </tr>`;
-        }).join('')}
-      </tbody>
-    </table>
-    </div>`;
+  wrap.innerHTML = '<div class="tbl-wrap"><table>'
+    + '<thead><tr>'
+    +   '<th>Item</th>'
+    +   '<th>Buy</th>'
+    +   '<th>Resale Est.</th>'
+    +   '<th>Net Profit</th>'
+    +   '<th>ROI</th>'
+    +   '<th>Deal</th>'
+    +   '<th>Risk</th>'
+    +   '<th>Status</th>'
+    +   '<th>Move to</th>'
+    + '</tr></thead>'
+    + '<tbody>'
+    + items.map(function(item) {
+        const pc = (item.roi_percentage || 0) >= 0 ? 'pos' : 'neg';
+        return '<tr>'
+          + '<td style="max-width:200px; overflow:hidden; text-overflow:ellipsis;" title="' + esc(item.title) + '">' + esc(item.title) + '</td>'
+          + '<td style="font-family:var(--mono)">$' + item.purchase_price.toFixed(2) + '</td>'
+          + '<td style="font-family:var(--mono)">' + (item.estimated_resale_price != null ? '$' + item.estimated_resale_price.toFixed(2) : '—') + '</td>'
+          + '<td style="font-family:var(--mono)" class="' + pc + '">' + (item.net_profit != null ? (item.net_profit >= 0 ? '+$' : '-$') + Math.abs(item.net_profit).toFixed(2) : '—') + '</td>'
+          + '<td style="font-family:var(--mono)" class="' + pc + '">' + (item.roi_percentage != null ? item.roi_percentage + '%' : '—') + '</td>'
+          + '<td>' + dsBadge(item.deal_score) + '</td>'
+          + '<td style="font-family:var(--mono)">' + (item.risk_score != null ? item.risk_score + '/10' : '—') + '</td>'
+          + '<td><span class="status s-' + item.status + '">' + item.status + '</span></td>'
+          + '<td>'
+          +   '<select onchange="changeStatus(' + item.id + ', this)" style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:12px;padding:4px 8px;">'
+          +     '<option value="">—</option>'
+          +     '<option value="candidate">candidate</option>'
+          +     '<option value="bought">bought</option>'
+          +     '<option value="listed">listed</option>'
+          +     '<option value="sold">sold</option>'
+          +     '<option value="rejected">rejected</option>'
+          +   '</select>'
+          + '</td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div>';
 }
 
 async function changeStatus(id, sel) {
@@ -861,7 +1117,7 @@ async function changeStatus(id, sel) {
     const raw = prompt('Actual sale price? (leave blank to skip recalculation)');
     if (raw !== null && raw.trim() !== '') {
       await apiFetch('/mark-sold', { id, actual_sale_price: parseFloat(raw) });
-      toast('Marked as sold ✓');
+      toast('Marked as sold');
       loadInventory();
       return;
     }
@@ -873,7 +1129,7 @@ async function changeStatus(id, sel) {
 
 async function setStatus(id, status) {
   await apiFetch('/update-status', { id, status });
-  toast(`Status → ${status}`);
+  toast('Status → ' + status);
 }
 
 // ─── ─── ─── LISTING ─── ─── ────────────────────────────────
@@ -881,15 +1137,18 @@ async function setStatus(id, status) {
 function prefillListing() {
   if (!_lastResult) return;
   const d = _lastResult;
+  const v = d.valuation || {};
   document.getElementById('li-title').value  = d.title || '';
-  document.getElementById('li-cond').value   = document.getElementById('ev-cond').value;
-  document.getElementById('li-cat').value    = document.getElementById('ev-cat').value  || '';
-  document.getElementById('li-price').value  = d.resale_price_estimate ? d.resale_price_estimate.toFixed(2) : '';
-  document.getElementById('li-weight').value = document.getElementById('ev-weight').value;
+  document.getElementById('li-cond').value   = (d.extracted && d.extracted.condition) || document.getElementById('ev-cond').value || 'good';
+  document.getElementById('li-cat').value    = (d.extracted && d.extracted.category) || document.getElementById('ev-cat').value || '';
+  document.getElementById('li-price').value  = (v.resale_price || d.resale_price_estimate || (d.market_data && d.market_data.avg_sold_price) || '');
+  if (document.getElementById('li-price').value) {
+    document.getElementById('li-price').value = parseFloat(document.getElementById('li-price').value).toFixed(2);
+  }
+  document.getElementById('li-weight').value = (d.extracted && d.extracted.weight_class) || document.getElementById('ev-weight').value || 'medium';
 
-  // Switch tab
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('nav button').forEach(function(b) { b.classList.remove('active'); });
   document.getElementById('tab-listing').classList.add('active');
   document.querySelector('nav button[data-tab="listing"]').classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -910,7 +1169,7 @@ async function doListing() {
 
   setBusy('li-btn', true);
   try {
-    const res  = await fetch('/generate-listing', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const res  = await fetch('/generate-listing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
     renderListing(data);
@@ -926,71 +1185,60 @@ function renderListing(d) {
   el.style.display = 'block';
   const p = d.suggested_price;
 
-  const pricingHtml = p.list_price ? `
-    <div class="price-trio">
-      <div class="metric">
-        <div class="metric-val pos">$${p.list_price}</div>
-        <div class="metric-lbl">List Price</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val" style="color:var(--blue)">$${p.buy_it_now}</div>
-        <div class="metric-lbl">Buy It Now</div>
-      </div>
-      <div class="metric">
-        <div class="metric-val" style="color:var(--muted)">$${p.minimum_accept}</div>
-        <div class="metric-lbl">Min Accept</div>
-      </div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:20px;">${esc(p.strategy)}</p>` : '';
+  const pricingHtml = p && p.list_price ? ''
+    + '<div class="price-trio">'
+    +   '<div class="metric"><div class="metric-val pos">$' + p.list_price + '</div><div class="metric-lbl">List Price</div></div>'
+    +   '<div class="metric"><div class="metric-val" style="color:var(--blue)">$' + p.buy_it_now + '</div><div class="metric-lbl">Buy It Now</div></div>'
+    +   '<div class="metric"><div class="metric-val" style="color:var(--muted)">$' + p.minimum_accept + '</div><div class="metric-lbl">Min Accept</div></div>'
+    + '</div>'
+    + '<p style="font-size:12px;color:var(--muted);margin-bottom:20px;">' + esc(p.strategy) + '</p>'
+    : '';
 
-  el.innerHTML = `
-    <div class="card">
-      ${pricingHtml}
+  el.innerHTML = '<div class="card">'
+    + pricingHtml
+    + '<div class="lsection">'
+    +   '<div class="lhead">'
+    +     '<span class="llabel">eBay Title &nbsp;<span style="color:var(--muted);font-weight:400;">' + d.title_char_count + '/80 chars</span></span>'
+    +     '<button class="btn btn-ghost btn-sm" onclick="cp(' + JSON.stringify(d.ebay_title) + ', \'Title\')">Copy</button>'
+    +   '</div>'
+    +   '<div class="lbox">' + esc(d.ebay_title) + '</div>'
+    + '</div>'
+    + '<div class="lsection">'
+    +   '<div class="lhead"><span class="llabel">Condition (select in eBay dropdown)</span></div>'
+    +   '<div class="lbox">' + esc(d.condition_label) + '</div>'
+    + '</div>'
+    + '<div class="lsection">'
+    +   '<div class="lhead">'
+    +     '<span class="llabel">Description</span>'
+    +     '<button class="btn btn-ghost btn-sm" onclick="cp(' + JSON.stringify(d.description) + ', \'Description\')">Copy</button>'
+    +   '</div>'
+    +   '<div class="lbox">' + esc(d.description) + '</div>'
+    + '</div>'
+    + '<div class="lsection">'
+    +   '<div class="lhead">'
+    +     '<span class="llabel">Search Keywords</span>'
+    +     '<button class="btn btn-ghost btn-sm" onclick="cp(' + JSON.stringify(d.keywords.join(', ')) + ', \'Keywords\')">Copy</button>'
+    +   '</div>'
+    +   '<div class="lbox">' + esc(d.keywords.join(', ')) + '</div>'
+    + '</div>'
+    + '<div class="lsection">'
+    +   '<div class="lhead"><span class="llabel">Shipping Note</span></div>'
+    +   '<div class="lbox">' + esc(d.shipping_note) + '</div>'
+    + '</div>'
+    + '<p style="font-size:11px;color:var(--muted);margin-top:16px;">' + esc(d.meta.disclaimer) + '</p>'
+    + '</div>';
 
-      <div class="lsection">
-        <div class="lhead">
-          <span class="llabel">eBay Title &nbsp;<span style="color:var(--muted);font-weight:400;">${d.title_char_count}/80 chars</span></span>
-          <button class="btn btn-ghost btn-sm" onclick="cp(${JSON.stringify(d.ebay_title)}, 'Title')">Copy</button>
-        </div>
-        <div class="lbox">${esc(d.ebay_title)}</div>
-      </div>
-
-      <div class="lsection">
-        <div class="lhead"><span class="llabel">Condition (select in eBay dropdown)</span></div>
-        <div class="lbox">${esc(d.condition_label)}</div>
-      </div>
-
-      <div class="lsection">
-        <div class="lhead">
-          <span class="llabel">Description</span>
-          <button class="btn btn-ghost btn-sm" onclick="cp(${JSON.stringify(d.description)}, 'Description')">Copy</button>
-        </div>
-        <div class="lbox">${esc(d.description)}</div>
-      </div>
-
-      <div class="lsection">
-        <div class="lhead">
-          <span class="llabel">Search Keywords</span>
-          <button class="btn btn-ghost btn-sm" onclick="cp(${JSON.stringify(d.keywords.join(', '))}, 'Keywords')">Copy</button>
-        </div>
-        <div class="lbox">${esc(d.keywords.join(', '))}</div>
-      </div>
-
-      <div class="lsection">
-        <div class="lhead"><span class="llabel">Shipping Note</span></div>
-        <div class="lbox">${esc(d.shipping_note)}</div>
-      </div>
-
-      <p style="font-size:11px;color:var(--muted);margin-top:16px;">⚠ ${esc(d.meta.disclaimer)}</p>
-    </div>`;
-
-  el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 // ─── Helpers ───────────────────────────────────────────────
 
 function esc(str) {
-  return String(str ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 async function apiFetch(path, body) {
