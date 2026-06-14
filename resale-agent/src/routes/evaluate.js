@@ -1,6 +1,6 @@
 const express = require('express');
 const router  = express.Router();
-const { evaluateItem }      = require('../services/evaluation');
+const { evaluateItem }      = require('../controllers/itemController');
 const { rankOpportunities } = require('../services/ranking');
 
 // POST /evaluate

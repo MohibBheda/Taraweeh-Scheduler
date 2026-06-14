@@ -103,7 +103,21 @@ function initDatabase() {
     )
   `);
 
+  runMigrations(db);
+
   console.log(`[db] Initialized: ${DB_PATH}`);
+}
+
+function runMigrations(db) {
+  const cols = [
+    'ALTER TABLE items ADD COLUMN liquidity_score REAL',
+    'ALTER TABLE items ADD COLUMN competition_score REAL',
+    'ALTER TABLE items ADD COLUMN deal_score REAL',
+    'ALTER TABLE items ADD COLUMN ebay_sold_avg REAL',
+    'ALTER TABLE items ADD COLUMN ebay_active_count INTEGER DEFAULT 0',
+    'ALTER TABLE items ADD COLUMN ebay_sold_count INTEGER DEFAULT 0',
+  ];
+  for (const sql of cols) { try { db.exec(sql); } catch {} }
 }
 
 module.exports = { getDb, initDatabase };
