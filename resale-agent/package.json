@@ -1,0 +1,21 @@
+{
+  "name": "resale-agent",
+  "version": "1.0.0",
+  "description": "Resale opportunity evaluation and optimization engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "node-sqlite3-wasm": "^0.8.58"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
